@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.MainController">
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <TextField fx:id="searchField"
+                       promptText="Search songs..."
+                       HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="searchButton"
+                    text="Search"
+                    onAction="#onSearchClicked" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="resultsTable">
+            <columns>
+                <TableColumn fx:id="titleCol" text="Title" prefWidth="150" />
+                <TableColumn fx:id="artistCol" text="Artist" prefWidth="150" />
+                <TableColumn fx:id="albumCol" text="Album" prefWidth="150" />
+                <TableColumn fx:id="genreCol" text="Genre" prefWidth="100" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
