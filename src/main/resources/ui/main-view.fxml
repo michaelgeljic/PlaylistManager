@@ -51,6 +51,7 @@
         <HBox spacing="10">
             <Button fx:id="updateButton" text="Update Song" onAction="#onUpdateClicked" />
             <Button fx:id="relatedButton" text="Related Artists" onAction="#onRelatedClicked"/>
+            <Button text="Populate Neo4j" onAction="#onPopulateNeo4jClicked"/>
         </HBox>
     </VBox>
 </bottom>

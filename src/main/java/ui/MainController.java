@@ -6,6 +6,7 @@ import service.SongService;
 import config.MongoConfig;
 import com.mongodb.client.MongoDatabase;
 
+import service.Neo4jPopulateService;
 import service.Neo4jService;
 import repository.Neo4jRepository;
 import config.Neo4jConfig;
@@ -143,5 +144,17 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void onPopulateNeo4jClicked() {
+        MongoDatabase db = MongoConfig.getDatabase();
+        Neo4jPopulateService pop = new Neo4jPopulateService(db);
+        pop.populate();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Neo4j database populated successfully!");
+        alert.showAndWait();
     }
 }
