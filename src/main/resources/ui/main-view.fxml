@@ -50,7 +50,7 @@
 
         <HBox spacing="10">
             <Button fx:id="updateButton" text="Update Song" onAction="#onUpdateClicked" />
-            <Button fx:id="relatedButton" text="Related Artists" />
+            <Button fx:id="relatedButton" text="Related Artists" onAction="#onRelatedClicked"/>
         </HBox>
     </VBox>
 </bottom>
