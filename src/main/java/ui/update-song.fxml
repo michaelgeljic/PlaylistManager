@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.UpdateSongController">
+    
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Update Song" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <Label text="Title:" />
+    <TextField fx:id="titleField" />
+
+    <Label text="Artist:" />
+    <TextField fx:id="artistField" />
+
+    <Label text="Album:" />
+    <TextField fx:id="albumField" />
+
+    <Label text="Genre:" />
+    <TextField fx:id="genreField" />
+
+    <Label text="Duration (sec):" />
+    <TextField fx:id="durationField" />
+
+    <Button text="Save Changes" onAction="#onSaveClicked" />
+</VBox>

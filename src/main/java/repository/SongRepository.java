@@ -59,4 +59,17 @@ public class SongRepository {
         songs.updateOne(eq("_id", id),
                 new Document("$set", new Document(mongoField, value)));
     }
+
+    public void updateSong(Song song) {
+    songs.updateOne(
+        new Document("_id", song.getId()),
+        new Document("$set", new Document()
+            .append("track_name", song.getTitle())
+            .append("artists", song.getArtist())
+            .append("album_name", song.getAlbum())
+            .append("track_genre", song.getGenre())
+            .append("duration_ms", song.getDuration() * 1000)
+        )
+    );
+}
 }
