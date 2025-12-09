@@ -1,7 +1,10 @@
 package ui;
 
+import javafx.application.Platform;
 import model.Song;
+import repository.PlaylistRepository;
 import repository.SongRepository;
+import service.PlaylistService;
 import service.SongService;
 import config.MongoConfig;
 import com.mongodb.client.MongoDatabase;
@@ -12,6 +15,7 @@ import repository.Neo4jRepository;
 import config.Neo4jConfig;
 
 import javafx.fxml.FXML;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +24,10 @@ import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Main UI controller for searching, viewing and managing songs and playlists.
+ * Handles user interactions from the main JavaFX view.
+ */
 public class MainController {
 
     @FXML
@@ -58,7 +66,10 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        System.out.println("[app] Starting application initialization...");
+        System.out.println("[app] Initializing MongoDB connection...");
         MongoDatabase db = MongoConfig.getDatabase();
+        System.out.println("[app] MongoDB ready. Creating services...");
         songService = new SongService(new SongRepository(db));
 
         neo4jService = new Neo4jService(
@@ -80,6 +91,8 @@ public class MainController {
                 detailAlbum.setText("Album: " + newSong.getAlbum());
                 detailGenre.setText("Genre: " + newSong.getGenre());
                 detailDuration.setText("Duration: " + newSong.getDuration() + " sec");
+                resultsTable.refresh();
+                System.out.println("[ui] Selected song: " + newSong.getId() + " - " + newSong.getTitle());
             }
         });
     }
@@ -87,7 +100,10 @@ public class MainController {
     @FXML
     private void onSearchClicked() {
         String keyword = searchField.getText().trim();
-        ObservableList<Song> items = FXCollections.observableArrayList(songService.searchSongs(keyword));
+        System.out.println("[ui] User requested search: '" + keyword + "'");
+        List<Song> found = songService.searchSongs(keyword);
+        System.out.println("[ui] Search returned " + found.size() + " results");
+        ObservableList<Song> items = FXCollections.observableArrayList(found);
         resultsTable.setItems(items);
     }
 
@@ -137,7 +153,7 @@ public class MainController {
             controller.loadData(selected.getArtist(), neo4jService);
 
             Stage stage = new Stage();
-            stage.setTitle("Related Artists");
+            stage.setTitle("Artists similar to " + selected.getArtist());
             stage.setScene(new Scene(root));
             stage.show();
 
@@ -148,13 +164,70 @@ public class MainController {
 
     @FXML
     private void onPopulateNeo4jClicked() {
+
         MongoDatabase db = MongoConfig.getDatabase();
         Neo4jPopulateService pop = new Neo4jPopulateService(db);
-        pop.populate();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Neo4j database populated successfully!");
-        alert.showAndWait();
+        // Run populate in a background thread
+        new Thread(() -> {
+            pop.populate();
+
+            // After it's done, notify the UI
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Neo4j database populated successfully!");
+                alert.showAndWait();
+            });
+        }).start();
     }
+
+    @FXML
+    private void onPlaylistsClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/playlist.fxml"));
+            Parent root = loader.load();
+
+            PlaylistController controller = loader.getController();
+            controller.load(new PlaylistService(new PlaylistRepository(MongoConfig.getDatabase())));
+
+            Stage stage = new Stage();
+            stage.setTitle("Playlists");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onAddToPlaylistClicked() {
+        Song selected = resultsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Select a song first.");
+            alert.showAndWait();
+            return;
+        }
+
+        System.out.println("[ui] Add to playlist requested for song: " + selected.getId());
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/add-to-playlist.fxml"));
+            Parent root = loader.load();
+
+            AddToPlaylistController controller = loader.getController();
+            PlaylistService ps = new PlaylistService(new PlaylistRepository(MongoConfig.getDatabase()));
+            controller.setData(selected, ps); // pass the song and playlist service
+
+            Stage stage = new Stage();
+            stage.setTitle("Add to Playlist");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

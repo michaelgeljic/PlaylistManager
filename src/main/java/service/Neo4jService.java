@@ -3,6 +3,10 @@ package service;
 import repository.Neo4jRepository;
 import java.util.List;
 
+/**
+ * Service for Neo4j graph database operations.
+ * Manages artist nodes and relationships to find related artists.
+ */
 public class Neo4jService {
 
     private final Neo4jRepository repo;

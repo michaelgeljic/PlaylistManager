@@ -52,6 +52,9 @@
             <Button fx:id="updateButton" text="Update Song" onAction="#onUpdateClicked" />
             <Button fx:id="relatedButton" text="Related Artists" onAction="#onRelatedClicked"/>
             <Button text="Populate Neo4j" onAction="#onPopulateNeo4jClicked"/>
+            <Button text="Playlists" onAction="#onPlaylistsClicked"/>
+            <Button text="Add to Playlist" onAction="#onAddToPlaylistClicked"/>
+
         </HBox>
     </VBox>
 </bottom>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.PlaylistEditController"
+      spacing="10">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+    <Label fx:id="headerLabel"
+           text="Playlist"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <ListView fx:id="songsList" prefHeight="300"/>
+    <HBox spacing="10">
+        <Button text="Remove Selected Song" onAction="#onRemoveSongClicked"/>
+    </HBox>
+</VBox>

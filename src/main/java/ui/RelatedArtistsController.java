@@ -6,6 +6,9 @@ import service.Neo4jService;
 
 import java.util.List;
 
+/**
+ * Controller that displays artists related to a given artist using Neo4j data.
+ */
 public class RelatedArtistsController {
 
     @FXML

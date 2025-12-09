@@ -1,8 +1,11 @@
 package ui;
 
-
 import java.util.Scanner;
 
+/**
+ * A simple console-based menu that can be used for non-GUI interaction.
+ * Provides basic commands for searching and selecting songs from the terminal.
+ */
 public class ConsoleMenu {
 
     private final Scanner scanner = new Scanner(System.in);

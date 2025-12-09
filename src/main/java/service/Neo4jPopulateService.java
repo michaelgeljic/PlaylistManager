@@ -8,6 +8,10 @@ import org.neo4j.driver.Session;
 
 import java.util.*;
 
+/**
+ * Populates the Neo4j database with artist and genre nodes from MongoDB.
+ * Extracts and normalizes data before creating graph relationships.
+ */
 public class Neo4jPopulateService {
 
     private final MongoDatabase mongoDb;
@@ -30,9 +34,6 @@ public class Neo4jPopulateService {
 
             String artist = ArtistNormalizer.extractPrimaryArtist(rawArtist);
             String genre = GenreNormalizer.normalize(rawGenre);
-            System.out.println("IMPORTING ARTIST RAW: " + rawArtist);
-            System.out.println("IMPORTING ARTIST NORMALIZED: " + artist);
-            System.out.println("IMPORTING GENRE: " + genre);
 
             if (!artist.isBlank() && !genre.isBlank()) {
                 artistGenre.put(artist, genre);

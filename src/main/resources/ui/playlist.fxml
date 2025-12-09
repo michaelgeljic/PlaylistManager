@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.PlaylistController"
+      spacing="10">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Playlists" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <ListView fx:id="playlistList" prefHeight="250"/>
+
+    <HBox spacing="10">
+        <Button text="Create Playlist" onAction="#onCreatePlaylist"/>
+        <Button text="Open Playlist" onAction="#onOpenPlaylist"/>
+    </HBox>
+
+</VBox>

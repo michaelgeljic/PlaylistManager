@@ -1,9 +1,15 @@
 package service;
 
+/**
+ * Utility class for normalizing artist names.
+ * Removes parenthetical content, special characters, and standardizes
+ * formatting.
+ */
 public class ArtistNormalizer {
 
     public static String normalize(String name) {
-        if (name == null) return "";
+        if (name == null)
+            return "";
 
         name = name.toLowerCase();
 
@@ -20,7 +26,8 @@ public class ArtistNormalizer {
     }
 
     public static String extractPrimaryArtist(String raw) {
-        if (raw == null) return "";
+        if (raw == null)
+            return "";
         String first = raw.split("[,/;]")[0]; // if multiple artists in string
         return normalize(first);
     }

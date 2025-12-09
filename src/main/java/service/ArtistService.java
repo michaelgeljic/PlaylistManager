@@ -1,11 +1,12 @@
 package service;
 
-
-
 import repository.ArtistRepository;
 
 import java.util.List;
 
+/**
+ * Service for artist-related operations using the Neo4j graph database.
+ */
 public class ArtistService {
 
     private final ArtistRepository repo;

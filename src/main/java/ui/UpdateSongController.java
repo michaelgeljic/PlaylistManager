@@ -7,13 +7,21 @@ import javafx.stage.Stage;
 import model.Song;
 import service.SongService;
 
+/**
+ * Controller responsible for showing and updating an existing Song record.
+ */
 public class UpdateSongController {
 
-    @FXML private TextField titleField;
-    @FXML private TextField artistField;
-    @FXML private TextField albumField;
-    @FXML private TextField genreField;
-    @FXML private TextField durationField;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextField artistField;
+    @FXML
+    private TextField albumField;
+    @FXML
+    private TextField genreField;
+    @FXML
+    private TextField durationField;
 
     private Song song;
     private SongService songService;

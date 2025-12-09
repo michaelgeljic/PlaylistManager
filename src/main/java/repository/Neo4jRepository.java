@@ -1,10 +1,15 @@
 package repository;
 
 import org.neo4j.driver.*;
+import service.ArtistNormalizer;
+
 import java.util.List;
 
 import static org.neo4j.driver.Values.parameters;
 
+/**
+ * Simple wrapper for Neo4j Driver interactions used by the app.
+ */
 public class Neo4jRepository {
 
     private final Driver driver;
@@ -17,9 +22,8 @@ public class Neo4jRepository {
     public void createArtist(String name) {
         try (Session session = driver.session()) {
             session.run(
-                "MERGE (:Artist {name: $name})",
-                parameters("name", name)
-            );
+                    "MERGE (:Artist {name: $name})",
+                    parameters("name", name));
         }
     }
 
@@ -27,21 +31,25 @@ public class Neo4jRepository {
     public void createRelation(String a1, String a2) {
         try (Session session = driver.session()) {
             session.run(
-                "MATCH (a:Artist {name: $a1}), (b:Artist {name: $a2}) " +
-                "MERGE (a)-[:SIMILAR_TO]->(b)",
-                parameters("a1", a1, "a2", a2)
-            );
+                    "MATCH (a:Artist {name: $a1}), (b:Artist {name: $a2}) " +
+                            "MERGE (a)-[:SIMILAR_TO]->(b)",
+                    parameters("a1", a1, "a2", a2));
         }
     }
 
     // Get related artists
     public List<String> findRelatedArtists(String name) {
+        // Make sure we match the normalized version in Neo4j
+        String normalized = ArtistNormalizer.normalize(name);
+
         try (Session session = driver.session()) {
+
             return session.run(
-                "MATCH (:Artist {name: $name})-[:SIMILAR_TO]->(other) " +
-                "RETURN other.name AS name",
-                parameters("name", name)
-            ).list(record -> record.get("name").asString());
+                    "MATCH (a:Artist {name: $name})-[:IN_GENRE]->(g:Genre)<-[:IN_GENRE]-(other:Artist) " +
+                            "WHERE a <> other " +
+                            "RETURN DISTINCT other.name AS name",
+                    parameters("name", normalized)).list(record -> record.get("name").asString());
         }
     }
+
 }
