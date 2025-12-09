@@ -8,7 +8,8 @@ public class MongoConfig {
 
     // Your Atlas URI with username and password included
     private static final String URI =
-            "mongodb+srv://USERNAME:PASSWORD@CHANGEME.mongodb.net/";
+            "mongodb+srv://mg3178:4321@playlistmanager-cluster.hovcfc8.mongodb.net/?appName=playlistmanager-cluster";
+
 
 
     private static final String DB_NAME = "musicdb";
