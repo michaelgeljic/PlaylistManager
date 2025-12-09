@@ -33,4 +33,27 @@
         </TableView>
     </center>
 
+    <bottom>
+    <VBox spacing="8">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+
+        <Label text="Song Details"
+               style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <Label fx:id="detailTitle" text="Title: -" />
+        <Label fx:id="detailArtist" text="Artist: -" />
+        <Label fx:id="detailAlbum" text="Album: -" />
+        <Label fx:id="detailGenre" text="Genre: -" />
+        <Label fx:id="detailDuration" text="Duration: -" />
+
+        <HBox spacing="10">
+            <Button fx:id="updateButton" text="Update Song" onAction="#onUpdateClicked" />
+            <Button fx:id="relatedButton" text="Related Artists" onAction="#onRelatedClicked"/>
+            <Button text="Populate Neo4j" onAction="#onPopulateNeo4jClicked"/>
+        </HBox>
+    </VBox>
+</bottom>
+
 </BorderPane>

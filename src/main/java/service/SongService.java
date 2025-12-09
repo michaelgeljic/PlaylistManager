@@ -21,6 +21,10 @@ public class SongService {
         return repo.findById(id);
     }
 
+    public void updateSong(Song song) {
+        repo.updateSong(song);
+    }
+
     // Update logical fields (user-friendly fields)
     public void updateSong(String id, String field, Object value) {
         String mongoField = switch (field) {
